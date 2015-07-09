@@ -1,4 +1,4 @@
-plot3 <- function () {
+plot4 <- function (output = "screen") {
 
 loadData <- function () {
 # If the data doesn't already exist in the global environment 
@@ -22,24 +22,54 @@ if (!exists("powerData")) {
   powerData$Time<<-NULL}
 }
 
-  loadData()
+plot1 <- function()  {
+# Original plot2 function.  
 
-  # After data is loaded, simply write the plot 
-  png(filename = "plot3.png",
-      width = 480, height = 480, units = "px", 
-       bg = "white")
-   
+  plot(powerData$dateTime,powerData$Global_active_power,type="l", 
+       ylab="Global Active Power(kilowatts)",
+       xlab=" ")
+}
+
+plot2 <- function () {
+  # Original plot 3  
   # Define plot parameters 
-  par(mar=c(6,6,3,3))
   legendText<-c("Sub_metering_1","Sub_metering_2","Sub_metering_3")
   plotColors=c("black","red","blue")
   
   with(powerData,plot(dateTime,Sub_metering_1,type="l", col=plotColors[1],
-       ylab="Energy sub metering",
-       xlab=" "))
+                      ylab="Energy sub metering",
+                      xlab=" "))
   with(powerData,points(dateTime,Sub_metering_2,type="l", col=plotColors[2]))
   with(powerData,points(dateTime,Sub_metering_3,type="l", col=plotColors[3]))
-  legend("topright", legend = legendText, col = plotColors,  bty = "o", lwd=2
-         )
-  dev.off()
+  legend(x="topright",legend = legendText, text.width=100,cex=0.5,
+         y.intersp = 0.5, 
+         col = plotColors,  bty = "o", lwd=2)
+}
+
+# library(data.table)
+# library(plyr)
+  loadData()
+
+  # After data is loaded, simply write the plot 
+#   png(filename = "plot3.png",
+#       width = 480, height = 480, units = "px", 
+#        bg = "white")
+#    
+  # Define plot parameters 
+  par(mar=c(5,5,1,1),mfcol=c(2,2),oma=c(0,0,2,0))
+ 
+  plot1()
+  plot2()
+  
+  # Plot 3 Voltage over time
+  plot(powerData$dateTime,powerData$Voltage,type="l", 
+       ylab="Voltage",
+       xlab="datetime")
+  
+  # Plot 4 Voltage over time
+  plot(powerData$dateTime,powerData$Global_reactive_power,type="l", 
+       ylab="Global_reactive_power",
+       xlab="datetime")
+  
+  # dev.off()
 }

@@ -1,4 +1,4 @@
-plot1 <- function () {
+getplot1 <- function () {
 
 loadData <- function () {
   # If the data doesn't already exist in the global environment 
