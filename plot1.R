@@ -1,4 +1,4 @@
-getplot1 <- function () {
+plot1 <- function () {
 
 loadData <- function () {
   # If the data doesn't already exist in the global environment 
@@ -7,6 +7,12 @@ loadData <- function () {
   # 3. Convert numerics to numbers (can't do this early because of the "?" characters instead of NA in source ) 
   # 4. Removes separe Date and Time columns, which have been replaced by a combined column
   if (!exists("powerData")) {
+    library("data.table")
+    library("dplyr")
+    library("graphics")
+    library("grDevices")
+    library("plyr")
+    
     fullData <-fread("household_power_consumption.txt",sep=";",na.strings = c("?"),
                      colClasses = rep("character",9)) 
     powerData<<-fullData[Date=="1/2/2007"|Date=="2/2/2007",]

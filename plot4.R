@@ -1,4 +1,4 @@
-plot4 <- function (output = "screen") {
+plot4 <- function () {
 
 loadData <- function () {
 # If the data doesn't already exist in the global environment 
@@ -7,6 +7,11 @@ loadData <- function () {
 # 3. Convert numerics to numbers (can't do this early because of the "?" characters instead of NA in source ) 
 # 4. Removes separe Date and Time columns, which have been replaced by a combined column
 if (!exists("powerData")) {
+  library("data.table")
+  library("dplyr")
+  library("graphics")
+  library("grDevices")
+  library("plyr")
   fullData <-fread("household_power_consumption.txt",sep=";",na.strings = c("?"),
                    colClasses = rep("character",9)) 
   powerData<<-fullData[Date=="1/2/2007"|Date=="2/2/2007",]
@@ -41,20 +46,20 @@ plot2 <- function () {
                       xlab=" "))
   with(powerData,points(dateTime,Sub_metering_2,type="l", col=plotColors[2]))
   with(powerData,points(dateTime,Sub_metering_3,type="l", col=plotColors[3]))
-  legend(x="topright",legend = legendText, text.width=100,cex=0.5,
-         y.intersp = 0.5, 
-         col = plotColors,  bty = "o", lwd=2)
+  legend(x="topright",legend = legendText, 
+        # text.width=300,
+         cex=0.7, pt.cex = 1,
+         y.intersp = 0.5, xjust=1,
+         col = plotColors, lwd=2)
 }
 
-# library(data.table)
-# library(plyr)
   loadData()
 
   # After data is loaded, simply write the plot 
-#   png(filename = "plot3.png",
-#       width = 480, height = 480, units = "px", 
-#        bg = "white")
-#    
+  png(filename = "plot4.png",
+      width = 480, height = 480, units = "px", 
+       bg = "white")
+
   # Define plot parameters 
   par(mar=c(5,5,1,1),mfcol=c(2,2),oma=c(0,0,2,0))
  
@@ -71,5 +76,5 @@ plot2 <- function () {
        ylab="Global_reactive_power",
        xlab="datetime")
   
-  # dev.off()
+  dev.off()
 }
